@@ -8,7 +8,6 @@ var correct = 0;
 var incorrect = 0;
 var time = 60;
 var guess = "";
-$(".time-display").text(time)
 
 $(".advance-button").hide()
 
@@ -25,10 +24,10 @@ function countDown(){
 
 function showNext(){
     index++
-    clearInterval(countDown)
+    // clearInterval(countDown)
     $(".answerOption").css("background-color", "white")
-    
-    if (index > 2){
+
+    if (index === trivia.length){
         $("main").hide()
         $(".results").text(`You answered ${correct} questions correctly and ${incorrect} questions incorrectly`) 
     } else {
@@ -44,22 +43,14 @@ function showNext(){
     }
 }   
 
-// function checkAnswer(){
-//     if (guess === trivia[index].correctAnswer){
-//         correct++
-//         alert('You got it!')
-//         time = 0;
-//         showNext()
-//     } else {
-//         incorrect++
-//         alert("Whoops, that's not it!")
-//         time = 0;
-//         showNext()
-//     }
-// }
+// start game/change start button to next button
+$(".start").click(function(){
+    $(this).hide()
+    showNext()
+    $(".advance-button").show()
+});
 
-// showNext()
-
+//highlights chosen answer
 $(".answerOption").click(function() {
     $(".answerOption").css("background-color", "white")
     $(this).css("background-color", "gray")
@@ -69,23 +60,14 @@ $(".answerOption").click(function() {
 });
 
 
-$(".start").click(function(){
-    // $(this).removeClass("start")
-    $(this).hide()
-    showNext()
-    $(".advance-button").show()
-});
 
-
+// submit and check answer, then go to next
 $(".advance-button").click(function(){
     if (guess === trivia[index].correctAnswer && time > 0 && index < trivia.length){
         correct++
         alert('You got it!')
         // clearInterval(countDown)
         showNext()
-    } else if (index > trivia.length){
-        $("main").hide()
-        $(".results").text(`You answered ${correct} questions correctly and ${incorrect} questions incorrectly`) 
     } else {
         incorrect++
         alert("Whoops, that's not it!")
