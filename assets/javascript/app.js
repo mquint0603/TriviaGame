@@ -6,7 +6,7 @@ var trivia = [
 var index = -1;
 var correct = 0;
 var incorrect = 0;
-var time = 60;
+var time = 0;
 var guess = "";
 
 $(".advance-button").hide()
@@ -31,7 +31,7 @@ function showNext(){
         $("main").hide()
         $(".results").text(`You answered ${correct} questions correctly and ${incorrect} questions incorrectly`) 
     } else {
-        time = 10
+        time = 20
         // clearInterval(countDown)
         $(".time-display").text(time)
         $(".question").text(trivia[index].question)
@@ -43,26 +43,26 @@ function showNext(){
     }
 }   
 
-// start game/change start button to next button
+// ______________________________________________ start game and change start button to next button
 $(".start").click(function(){
     $(this).hide()
     showNext()
-    $(".advance-button").show()
 });
 
-//highlights chosen answer
-$(".answerOption").click(function() {
-    $(".answerOption").css("background-color", "white")
+//______________________________________________  highlights chosen answer
+$(".answerOption").mouseenter(function() {
+    // $(".answerOption").css("background-color", "white")
     $(this).css("background-color", "gray")
-    guess = $(this).text()
-    console.log(guess)
     
 });
+$(".answerOption").mouseleave(function() {
+    $(this).css("background-color", "white")  
+});
 
-
-
-// submit and check answer, then go to next
-$(".advance-button").click(function(){
+// ______________________________________________  submit and check answer, then go to next
+$(".answerOption").click(function(){
+    guess = $(this).text()
+    console.log(guess)
     if (guess === trivia[index].correctAnswer && time > 0 && index < trivia.length){
         correct++
         alert('You got it!')
