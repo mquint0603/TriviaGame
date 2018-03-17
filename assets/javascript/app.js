@@ -12,6 +12,7 @@ var guess = "";
 $(".advance-button").hide()
 
 function countDown(){
+    clearInterval(countDown)
     if (time > 0){
         time --;
     } else if (time === 0 && index < trivia.length){
