@@ -6,43 +6,13 @@ var trivia = [
 var index = -1;
 var correct = 0;
 var incorrect = 0;
-var time = 0;
+var time;
 var guess = "";
+var timesUp = false;
+var timerGo;
 
-$(".advance-button").hide()
+$(".play-again").hide()
 
-function countDown(){
-    clearInterval(countDown)
-    if (time > 0){
-        time --;
-    } else if (time === 0 && index < trivia.length){
-        incorrect++
-        alert("Out of time!")
-        showNext()
-    }
-    $(".time-display").text(time)
-}
-
-function showNext(){
-    index++
-    // clearInterval(countDown)
-    $(".answerOption").css("background-color", "white")
-
-    if (index === trivia.length){
-        $("main").hide()
-        $(".results").text(`You answered ${correct} questions correctly and ${incorrect} questions incorrectly`) 
-    } else {
-        time = 20
-        // clearInterval(countDown)
-        $(".time-display").text(time)
-        $(".question").text(trivia[index].question)
-        $(".choiceA").text(trivia[index].A)
-        $(".choiceB").text(trivia[index].B)
-        $(".choiceC").text(trivia[index].C)
-        $(".choiceD").text(trivia[index].D)
-        setInterval(countDown, 1000) 
-    }
-}   
 
 // ______________________________________________ start game and change start button to next button
 $(".start").click(function(){
@@ -50,30 +20,109 @@ $(".start").click(function(){
     showNext()
 });
 
+$(".play-again").click(function(){
+    $(this).hide()
+    index = -1
+    showNext()
+});
+
 //______________________________________________  highlights chosen answer
 $(".answerOption").mouseenter(function() {
-    // $(".answerOption").css("background-color", "white")
-    $(this).css("background-color", "gray")
-    
+    $(this).css("background-color", "gray")   
 });
 $(".answerOption").mouseleave(function() {
     $(this).css("background-color", "white")  
 });
 
+function countDown(){   
+    if (time > 0){
+        time --;
+        $(".time-display").text(time)
+    } if (time === 0 && index < trivia.length){
+        clearInterval(timerGo);
+        outofTime()
+        setTimeout(showNext, 2000); 
+    }
+}
+
+function showNext(){
+    index++
+    if (index === trivia.length){
+        clearInterval(timerGo);
+        $(".time-display").text("")
+        $("main").hide()
+        $(".results").show()
+        $(".play-again").show()
+        $(".results").text(`You got ${correct} out of 10 questions correct!`) 
+    } else if (index < trivia.length) {
+        time = 20
+        timerGo = setInterval(countDown, 1000)
+        $(".answerOption").css("background-color", "white")
+        $("main").show()
+        $(".results").hide()   
+        $(".question").text(trivia[index].question)
+        $(".choiceA").text(trivia[index].A)
+        $(".choiceB").text(trivia[index].B)
+        $(".choiceC").text(trivia[index].C)
+        $(".choiceD").text(trivia[index].D)       
+        $(".time-display").text(time) 
+    }
+
+
+}   
 // ______________________________________________  submit and check answer, then go to next
 $(".answerOption").click(function(){
+    // clearInterval(countDown)
     guess = $(this).text()
     console.log(guess)
-    if (guess === trivia[index].correctAnswer && time > 0 && index < trivia.length){
-        correct++
-        alert('You got it!')
-        // clearInterval(countDown)
-        showNext()
-    } else {
-        incorrect++
-        alert("Whoops, that's not it!")
-        // clearInterval(countDown)
-        showNext()
-    }
-    console.log(correct, incorrect)
+    if (time > 0 && guess === trivia[index].correctAnswer && index < trivia.length){
+        // clearInterval(countDown);
+        clearInterval(timerGo);
+        rightAnswer();
+        setTimeout(showNext, 2000);  
+        // setInterval(countDown, 1000)
+    } else if (time > 0 && guess != trivia[index].correctAnswer && index < trivia.length){
+        // clearInterval(countDown);
+        clearInterval(timerGo);
+        wrongAnswer();
+        setTimeout(showNext, 2000);  
+        // setInterval(countDown, 1000)
+    } 
 });
+
+
+function rightAnswer(){
+    correct++
+    time = 0
+    $("main").hide()
+    $(".results").show()
+    $(".results").text('You got it!')
+}
+
+function wrongAnswer(){
+    incorrect++
+    time = 0
+    $("main").hide()
+    $(".results").show()
+    $(".results").text(`Whoops, that's not it! The answer was ${trivia[index].correctAnswer}`) 
+}
+
+function outofTime(){
+    incorrect++
+    $("main").hide()
+    $(".results").show()
+    $(".results").text(`Out of time! The answer was ${trivia[index].correctAnswer}`)
+}
+
+
+
+
+
+ 
+// } else if (time === 0 && index === trivia.length) {
+//     clearInterval(timerGo);
+//     $("main").hide()
+//     $(".results").show()
+//     $(".play-again").show()
+//     $(".results").text(`You got ${correct} out of 10 questions correct!`) 
+// }
