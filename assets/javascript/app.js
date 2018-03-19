@@ -7,7 +7,7 @@ var trivia = [
     {question: "What does the word 'Kuddelmuddel' mean?", A: "a person who is overly affectionate with aquaintences", B: "a run-on sentence", C: "a chaotic mess or hodgepodge", correctAnswer: "a chaotic mess or hodgepodge"},
     {question: "A joke or comeback that comes to you after it's too late.", A: "Beleidigung", B: "Treppenwitz", C: "Späterwiderung", correctAnswer: "Treppenwitz"},
     {question: "People experiencing Vergangenheitsbewaeltigung are...", A: "feeling a sensation of falling in a dream", B: "experiencing deja vu", C: "struggling to come to terms with the past", correctAnswer: "struggling to come to terms with the past"},
-    {questions: "Literally translated as 'a person who wears gloves to throw snowballs', what does Handschuhschneeballwerfer mean?", A: "someone fragile and lacking resilience", B: "a coward who only criticizes behind others' backs", C: "a conscientious worker", correctAnswer:"a coward who only criticizes behind others' backs"}
+    {question: "Literally translated as 'a person who wears gloves to throw snowballs', what does Handschuhschneeballwerfer mean?", A: "someone fragile and lacking resilience", B: "a coward who only criticizes behind others' backs", C: "a conscientious worker", correctAnswer:"a coward who only criticizes behind others' backs"}
 ]
 var index = -1;
 var correct = 0;
@@ -61,7 +61,7 @@ function showNext(){
         $(".play-again").show()
         $(".results").text(`You got ${correct} out of 9 questions correct!`) 
     } else if (index < trivia.length) {
-        time = 20
+        time = 30
         timerGo = setInterval(countDown, 1000)
         $(".answerOption").css("background-color", "#e3e3e3")
         $("main").show()
