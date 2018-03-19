@@ -1,4 +1,6 @@
-# TriviaGame
+# German Words Trivia Game
+
+Using JavaScript for the logic and jQuery to manipulate HTML.
 
 Sources:
 https://www.fluentu.com/blog/german/weird-german-words-vocabulary/
